@@ -1,0 +1,29 @@
+{
+  "name": "organized-application",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^4.0.0",
+    "epilogue": "^0.7.1",
+    "express": "^4.15.2",
+    "geoip-lite": "^1.2.1",
+    "moment": "^2.18.1",
+    "morgan": "^1.8.1",
+    "mysql": "^2.13.0",
+    "nodemon": "^1.11.0",
+    "sequelize": "^3.30.4",
+    "shortid": "^2.2.8",
+    "winston": "^2.3.1"
+  }
+}
