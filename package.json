@@ -1,8 +1,8 @@
 {
-  "name": "organized-application",
+  "name": "go_tc_edu",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "directories": {
     "test": "tests"
   },
@@ -16,6 +16,7 @@
     "cookie-parser": "^1.4.3",
     "dotenv": "^4.0.0",
     "epilogue": "^0.7.1",
+    "eslint": "^3.19.0",
     "express": "^4.15.2",
     "geoip-lite": "^1.2.1",
     "moment": "^2.18.1",
@@ -25,5 +26,9 @@
     "sequelize": "^3.30.4",
     "shortid": "^2.2.8",
     "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-google": "^0.7.1"
   }
 }

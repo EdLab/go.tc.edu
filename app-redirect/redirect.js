@@ -1,29 +1,23 @@
-#!/usr/bin/env node
-
-/**
- * Module dependencies.
- */
-
-var express = require('express');
-var app = express();
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var routes = require('../routes/routes-redirect');
-var debug = require('debug')('express-sequelize-mysql');
-var http = require('http')
-var logsModel = require('../models/logs');
-var logger = require('../libs/Logger')
-var port = process.env.PORT || 3000;
+let express = require('express');
+let app = express();
+let cookieParser = require('cookie-parser');
+let bodyParser = require('body-parser');
+let routes = require('../routes/routes-redirect');
+let debug = require('debug')('express-sequelize-mysql');
+let http = require('http');
+let logsModel = require('../models/logs');
+let logger = require('../libs/Logger');
+let port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
 app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  let err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
@@ -33,7 +27,7 @@ app.use(function(req, res, next) {
  * Create HTTP server.
  */
 
-var server = http.createServer(app)
+let server = http.createServer(app);
 
 
 // Listen on provided port, on all network interfaces.
@@ -49,7 +43,7 @@ server.on('listening', onListening);
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+  let port = parseInt(val, 10);
 
   if (isNaN(port)) {
     // named pipe
@@ -73,22 +67,22 @@ function onError(error) {
     throw error;
   }
 
-  var bind = typeof port === 'string'
+  let bind = typeof port === 'string'
     ? 'Pipe ' + port
     : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
+  case 'EACCES':
+    console.error(bind + ' requires elevated privileges');
+    process.exit(1);
+    break;
+  case 'EADDRINUSE':
+    console.error(bind + ' is already in use');
+    process.exit(1);
+    break;
+  default:
+    throw error;
   }
 }
 
@@ -97,8 +91,8 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
+  let addr = server.address();
+  let bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
@@ -109,9 +103,8 @@ function onListening() {
 logsModel
   .sync() // { force: false }
   .then(function() {
-    logger.info('Successfully synced logsModel')  
-  }).catch(function(err)
-  {
+    logger.info('Successfully synced logsModel');
+  }).catch(function(err)  {
     // handle error
     logger.error('Error while listening to database', err);
   }
