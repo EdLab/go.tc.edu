@@ -32,9 +32,20 @@ var deletedURLModel = sequelize.define('deletedURL', {
     defaultvalue: 'Just for FUN..',
     allowNull: true,
     unique: false
-  }
+  },
+  deletedAt:
+  {
+    type: Sequelize.DATE,
+    field: 'deletedAt',
+    defaultValue: function() {
+      return sequelize.literal('CURRENT_TIMESTAMP');
+    }
+  },
+  createdAt: {type: Sequelize.DATE, field: 'createdAt'}
+}
 }, {
-  tableName: 'deletedURL'
+  tableName: 'deletedURL',
+  timestamps: false
 });
 
 module.exports = deletedURLModel;

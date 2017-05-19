@@ -53,9 +53,18 @@ var logsModel = sequelize.define('logs', {
   zipCode:
   {
     type: Sequelize.INTEGER
+  },
+  createdAt: 
+  {
+    type: Sequelize.DATE, 
+    field: 'createdAt',
+    defaultValue: function() {
+      return sequelize.literal('CURRENT_TIMESTAMP')
+    }
   }
 }, {
-  tableName: 'logs'
+  tableName: 'logs',
+  timestamps: false
 });
 
 module.exports = logsModel;

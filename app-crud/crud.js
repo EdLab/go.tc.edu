@@ -31,6 +31,7 @@ campaignURLModel.hook('beforeDestroy', function(campaignURLModel, options, fn) {
   originalURL: campaignURLModel.originalURL,
   shortId: campaignURLModel.shortId,
   description: campaignURLModel.description,
+  createdAt: campaignURLModel.createdAt
 })
 .then(function() {
   logger.info('Deleted successfully');
