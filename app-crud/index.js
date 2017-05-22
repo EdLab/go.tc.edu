@@ -4,7 +4,6 @@ let bodyParser = require('body-parser');
 let Sequelize = require('sequelize');
 let epilogue = require('epilogue');
 let express = require('express');
-let logger = require('../libs/Logger');
 
 let router = express.Router();
 let database = new Sequelize(process.env.DB_HOST, process.env.DB_USER, process.env.DB_PASS, process.env.dialect);
@@ -27,23 +26,24 @@ router.use(function(req, res, next) {
 });
 
 // Hooks
-campaignURLModel.hook('beforeDestroy', function(campaignURLModel, options, fn) {
-  deletedURLModel
-    .create({
-      originalURL: campaignURLModel.originalURL,
-      shortId: campaignURLModel.shortId,
-      description: campaignURLModel.description,
-      createdAt: campaignURLModel.createdAt
-    })
-    .then(function() {
-      logger.info('Deleted successfully');
-    })
-    .catch(function(err) {
-      // handle error
-      logger.error('Error while deleting', err);
-    });
-  fn(null, campaignURLModel);
-});
+campaignURLModel
+  .hook('beforeDestroy', function(campaignURLModel, options, fn) {
+    deletedURLModel
+      .create({
+        originalURL: campaignURLModel.originalURL,
+        shortId: campaignURLModel.shortId,
+        description: campaignURLModel.description,
+        createdAt: campaignURLModel.createdAt
+      })
+      .then(function() {
+        Logger.info('Deleted successfully');
+      })
+      .catch(function(err) {
+        // handle error
+        Logger.error('Error while deleting', err);
+      });
+    fn(null, campaignURLModel);
+  });
 
 
 // Initialize epilogue

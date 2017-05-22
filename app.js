@@ -1,7 +1,7 @@
 let debug = require('debug')('express-sequelize-mysql');
 let http = require('http');
 let port = process.env.PORT || 3000;
-let Logger = require('../libs/Logger');
+let Logger = require('./libs/Logger');
 
 global.Logger = Logger;
 

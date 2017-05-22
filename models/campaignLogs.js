@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
-var db = require('../config/dbRedirect.js'),
-  sequelize = db.sequelize;
+const sequelize = require('../config/dbCrud.js');
 
 var LogsModel = sequelize.define('campaignLogs', {
   logsId: {

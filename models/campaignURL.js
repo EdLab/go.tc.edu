@@ -1,11 +1,8 @@
 const shortid = require('shortid');
 const Sequelize = require('sequelize');
-const db = require('../config/dbCrud.js'),
-  sequelize = db.sequelize;
+const sequelize = require('../config/dbCrud.js');
 
-// var generated_short_id = shortid.generate();
-
-var campaignURLModel = sequelize.define('campaignURL', {
+var CampaignURLModel = sequelize.define('campaignURL', {
   cId: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -38,15 +35,13 @@ var campaignURLModel = sequelize.define('campaignURL', {
 }, {
   tableName: 'campaignURL'
 });
-// Create database and listen
-campaignURLModel
-  .sync({
-    force: false
-  }) //
+
+CampaignURLModel
+  .sync() // { force: false }
   .then(function() {
     Logger.info('Successfully synced campaignURLModel');
   }).catch(function(err) {
     // handle error
     Logger.error('Error while listening to database', err);
   });
-module.exports = campaignURLModel;
+module.exports = CampaignURLModel;
