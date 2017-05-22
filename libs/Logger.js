@@ -5,9 +5,9 @@ winston.emitErrs = true;
 var logger = new winston.Logger({
   transports: [
     new winston.transports.File({
-        	timestamp: () => {
-        	return moment().format('YYYY-MM-DD h:mm:ss Z');
-      		},
+      timestamp: () => {
+        return moment().format('YYYY-MM-DD h:mm:ss Z');
+      },
       level: 'info',
       filename: './logs/logs.log',
       handleExceptions: true,
@@ -19,8 +19,8 @@ var logger = new winston.Logger({
     }),
     new winston.transports.Console({
       timestamp: () => {
-        	return moment().format('YYYY-MM-DD h:mm:ss Z');
-      		},
+        return moment().format('YYYY-MM-DD h:mm:ss Z');
+      },
       level: 'debug',
       handleExceptions: true,
       humanReadableUnhandledException: true,
@@ -32,8 +32,3 @@ var logger = new winston.Logger({
 });
 
 module.exports = logger;
-module.exports.stream = {
-  write: function(message, encoding){
-    logger.info(message);
-  }
-};

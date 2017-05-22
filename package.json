@@ -1,13 +1,13 @@
 {
   "name": "go_tc_edu",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "app.js",
-  "directories": {
-    "test": "tests"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start-api": "PORT=3001 APP=crud node app",
+    "dev-api": "PORT=3001 APP=crud nodemon app",
+    "start-redirect": "PORT=3000 APP=redirect node app",
+    "dev-redirect": "PORT=3000 APP=redirect nodemon app"
   },
   "author": "",
   "license": "ISC",
@@ -22,13 +22,13 @@
     "moment": "^2.18.1",
     "morgan": "^1.8.1",
     "mysql": "^2.13.0",
-    "nodemon": "^1.11.0",
     "sequelize": "^3.30.4",
     "shortid": "^2.2.8",
     "winston": "^2.3.1"
   },
   "devDependencies": {
     "eslint": "^3.19.0",
-    "eslint-config-google": "^0.7.1"
+    "eslint-config-google": "^0.7.1",
+    "nodemon": "^1.11.0"
   }
 }

@@ -5,7 +5,7 @@ let Sequelize = require('sequelize');
 let epilogue = require('epilogue');
 let express = require('express');
 let logger = require('../libs/Logger');
-let port = process.env.PORT || 9001;
+
 let router = express.Router();
 let database = new Sequelize(process.env.DB_HOST, process.env.DB_USER, process.env.DB_PASS, process.env.dialect);
 let app = express();
@@ -63,10 +63,6 @@ let campaignURL = epilogue.resource({
   }, ],
 });
 
-// Listening to port
-app.listen(port, function() {
-  console.log('listening at %s', port);
-});
 
 // Create database and listen
 campaignURLModel
@@ -88,3 +84,5 @@ deletedURLModel
     // handle error
     logger.error('Error while listening to database', err);
   });
+
+module.exports = app;

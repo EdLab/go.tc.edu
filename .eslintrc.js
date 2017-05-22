@@ -1,4 +1,7 @@
 module.exports = {
+    "globals": {
+        Logger: true
+    },
     "env": {
         "es6": true,
         "node": true
