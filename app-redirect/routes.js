@@ -1,4 +1,4 @@
-const campaignURLModel = require('../models/campaignURL');
+const CampaignURLModel = require('../models/campaignURL');
 const LogsModel = require('../models/campaignLogs');
 const express = require('express');
 const router = express.Router();
@@ -8,52 +8,52 @@ const geoip = require('geoip-lite');
 router.get('/', (req, res) => {
   res.json({});
 });
-router.get('/:shortId', function(req, res, next) {
-  // var geoIp = geoip.lookup(req.ip);
-  var geoIp = geoip.lookup('128.59.82.245');
-  var logObject = {
-    originalURL: req.protocol + '://' + req.get('host') + req.originalUrl,
-    remote: req.ip,
-    userAgent: req.headers['user-agent']
-  };
-  if (geoIp) {
-    Object.assign(logObject, {
-      latitude: geoIp.ll[0],
-      longitude: geoIp.ll[1],
-      city: geoIp.city,
-      region: geoIp.region,
-      country: geoIp.country,
-      metroCode: geoIp.metro,
-      zipCode: geoIp.zip
-    });
-  }
-  LogsModel
-    .create(logObject)
-    .then(function() {
-      Logger.info('Log successfully');
-    })
-    .catch(function(err) {
-      // handle error
-      Logger.error('Error while logging', err);
-    });
 
-  // Redirecting
-  campaignURLModel
+const findCampaignUrl = (req, res, next) => {
+  CampaignURLModel
     .findOne({
-      attributes: ['originalURL'],
       where: {
         shortId: req.params.shortId
       }
     })
-    .then(function(url) {
-      if (!url) {
-        var error = new Error('Couldn\'t found you..');
-        error.status = 405;
-        Logger.error('Error while redirecting', error);
-        return next(error);
-      }
-      res.status(301).redirect(url.originalURL);
+    .then(function(campaignURL) {
+      res.locals.campaignURL = campaignURL;
+      next();
     });
+};
+router.get('/:shortId', findCampaignUrl, function(req, res) {
+  var campaignURL = res.locals.campaignURL;
+  if (campaignURL) {
+    var geoIp = geoip.lookup(req.ip);
+    // var geoIp = geoip.lookup('128.59.82.245');
+    var logObject = {
+      cId: campaignURL ? campaignURL.cId : null,
+      remote: req.ip,
+      userAgent: req.headers['user-agent']
+    };
+    if (geoIp) {
+      Object.assign(logObject, {
+        latitude: geoIp.ll[0],
+        longitude: geoIp.ll[1],
+        city: geoIp.city,
+        region: geoIp.region,
+        country: geoIp.country,
+        metroCode: geoIp.metro,
+        zipCode: geoIp.zip
+      });
+    }
+    LogsModel
+      .create(logObject)
+      .then(() => {
+        return res.redirect(301, campaignURL.originalURL);
+      })
+      .catch((error) => {
+        Logger.error('Error while redirecting', error);
+        res.json({});
+      });
+  } else {
+    res.redirect(302, '/');
+  }
 });
 
 module.exports = router;

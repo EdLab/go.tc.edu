@@ -1,10 +1,27 @@
-const shortid = require('shortid');
+const chance = require('chance')();
 const Sequelize = require('sequelize');
 const sequelize = require('../config/dbCrud.js');
 const DeletedURLModel = require('./campaignURLDeleted');
 const Logger = require('../libs/Logger');
-
-var CampaignURLModel = sequelize.define('campaignURL', {
+const generateShortId = function(shortId = chance.word()) {
+  return CampaignURLModel
+    .findOne({
+      where: {
+        shortId: shortId
+      }
+    })
+    .then(function(result) {
+      if (result) {
+        return generateShortId(chance.word());
+      } else {
+        return shortId;
+      }
+    }, function(err) {
+      Logger.error(err);
+      return err;
+    });
+};
+var CampaignURLModel = sequelize.define('campaign_url', {
   cId: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -20,9 +37,6 @@ var CampaignURLModel = sequelize.define('campaignURL', {
   },
   shortId: {
     type: Sequelize.STRING,
-    defaultValue: function() {
-      return shortid.generate();
-    },
     allowNull: false,
     unique: true,
     validate: {
@@ -35,9 +49,21 @@ var CampaignURLModel = sequelize.define('campaignURL', {
     unique: false
   }
 }, {
-  tableName: 'campaignURL'
+  timestamps: true
 });
+CampaignURLModel
+  .hook('beforeValidate', function(instance, options, done) {
+    if (!instance.shortId) {
+      generateShortId()
+        .then((shortId) => {
+          instance.shortId = shortId;
+          done();
+        });
+    } else {
+      done();
+    }
 
+  });
 CampaignURLModel
   .sync() // { force: false }
   .then(function() {

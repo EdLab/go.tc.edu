@@ -1,19 +1,17 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/dbCrud.js');
 const Logger = require('../libs/Logger');
+const CampaignURLModel = require('./campaignURL');
 
-var LogsModel = sequelize.define('campaignLogs', {
+var LogsModel = sequelize.define('campaign_log', {
   logId: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
-  originalURL: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      isUrl: true
-    }
+  cId: {
+    type: Sequelize.INTEGER,
+    allowNull: true
   },
   remote: {
     type: Sequelize.STRING,
@@ -43,19 +41,14 @@ var LogsModel = sequelize.define('campaignLogs', {
   },
   zipCode: {
     type: Sequelize.INTEGER
-  },
-  createdAt: {
-    type: Sequelize.DATE,
-    field: 'createdAt',
-    defaultValue: function() {
-      return sequelize.literal('CURRENT_TIMESTAMP');
-    }
   }
 }, {
-  tableName: 'campaignLogs',
-  timestamps: false
+  timestamps: true,
+  updatedAt: false
 });
-
+LogsModel.belongsTo(CampaignURLModel, {
+  foreignKey: 'cId'
+});
 LogsModel
   .sync() // { force: false }
   .then(function() {

@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../config/dbCrud.js');
 const Logger = require('../libs/Logger');
 
-var DeletedURLModel = sequelize.define('campaignURLDeleted', {
+var DeletedURLModel = sequelize.define('campaign_deleted_url', {
   cId: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -11,17 +11,10 @@ var DeletedURLModel = sequelize.define('campaignURLDeleted', {
   originalURL: {
     type: Sequelize.STRING,
     allowNull: false,
-    validate: {
-      isUrl: true
-    }
   },
   shortId: {
     type: Sequelize.STRING,
     allowNull: false,
-    unique: true,
-    validate: {
-      len: [3, ]
-    }
   },
   description: {
     type: Sequelize.STRING,
@@ -41,7 +34,6 @@ var DeletedURLModel = sequelize.define('campaignURLDeleted', {
     field: 'createdAt'
   }
 }, {
-  tableName: 'campaignURLDeleted',
   timestamps: false
 });
 

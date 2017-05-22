@@ -1,9 +1,8 @@
 {
   "test": {
-    "username": "***REMOVED***",
-    "password": "y6A5Ff6XRffYTuwewpJ9AfpOk72",
+    "username": "root",
     "database": "CMS",
-    "host": "dev-edlab-website.c3ecka0pmtwy.us-east-1.rds.amazonaws.com",
+    "host": "localhost",
     "dialect": "mysql"
   },
   "development": {
