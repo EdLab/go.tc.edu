@@ -12,9 +12,6 @@ const sequelize = db.sequelize;
 // Router for redirect request to original URL
 router.get('/:shortId', function(req, res, next) {
 
-    // dummy IP for testing purpose
-  var reqip = '128.59.82.245';
-
   logsModel
     .create({
       originalURL: req.protocol + '://' + req.get('host') + req.originalUrl,

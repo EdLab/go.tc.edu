@@ -2,7 +2,7 @@ let express = require('express');
 let app = express();
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
-let routes = require('../routes/routes-redirect');
+let routes = require('../redirect');
 let debug = require('debug')('express-sequelize-mysql');
 let http = require('http');
 let logsModel = require('../models/logs');
@@ -10,7 +10,9 @@ let logger = require('../libs/Logger');
 let port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 
 app.use('/', routes);
@@ -67,9 +69,7 @@ function onError(error) {
     throw error;
   }
 
-  let bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+  let bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -92,9 +92,7 @@ function onError(error) {
 
 function onListening() {
   let addr = server.address();
-  let bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
+  let bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
 
@@ -104,8 +102,7 @@ logsModel
   .sync() // { force: false }
   .then(function() {
     logger.info('Successfully synced logsModel');
-  }).catch(function(err)  {
+  }).catch(function(err) {
     // handle error
     logger.error('Error while listening to database', err);
-  }
-  );
+  });
