@@ -63,26 +63,4 @@ let campaignURL = epilogue.resource({
   }, ],
 });
 
-
-// Create database and listen
-campaignURLModel
-  .sync({
-    force: false
-  }) //
-  .then(function() {
-    logger.info('Successfully synced campaignURLModel');
-  }).catch(function(err) {
-    // handle error
-    logger.error('Error while listening to database', err);
-  });
-
-deletedURLModel
-  .sync() // { force: false }
-  .then(function() {
-    logger.info('Successfully synced deletedURLModel');
-  }).catch(function(err) {
-    // handle error
-    logger.error('Error while listening to database', err);
-  });
-
 module.exports = app;

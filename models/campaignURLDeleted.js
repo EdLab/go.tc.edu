@@ -2,14 +2,13 @@ const Sequelize = require('sequelize');
 const db = require('../config/dbCrud.js'),
   sequelize = db.sequelize;
 
-var deletedURLModel = sequelize.define('deletedURL', {
+var DeletedURLModel = sequelize.define('campaignURLDeleted', {
   cId: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
-  originalURL:
-  {
+  originalURL: {
     type: Sequelize.STRING,
     allowNull: false,
     unique: true,
@@ -17,35 +16,42 @@ var deletedURLModel = sequelize.define('deletedURL', {
       isUrl: true
     }
   },
-  shortId:
-  {
+  shortId: {
     type: Sequelize.STRING,
     allowNull: false,
     unique: true,
     validate: {
-      len: [3,]
+      len: [3, ]
     }
   },
-  description:
-  {
+  description: {
     type: Sequelize.STRING,
     defaultvalue: 'Just for FUN..',
     allowNull: true,
     unique: false
   },
-  deletedAt:
-  {
+  deletedAt: {
     type: Sequelize.DATE,
     field: 'deletedAt',
     defaultValue: function() {
       return sequelize.literal('CURRENT_TIMESTAMP');
     }
   },
-  createdAt: {type: Sequelize.DATE, field: 'createdAt'}
-}
+  createdAt: {
+    type: Sequelize.DATE,
+    field: 'createdAt'
+  }
 }, {
-  tableName: 'deletedURL',
+  tableName: 'campaignURLDeleted',
   timestamps: false
 });
 
-module.exports = deletedURLModel;
+DeletedURLModel
+  .sync() // { force: false }
+  .then(function() {
+    Logger.info('Successfully synced deletedURLModel');
+  }).catch(function(err) {
+    // handle error
+    Logger.error('Error while listening to database', err);
+  });
+module.exports = DeletedURLModel;

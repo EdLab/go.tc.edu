@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 var db = require('../config/dbRedirect.js'),
   sequelize = db.sequelize;
 
-var logsModel = sequelize.define('logs', {
+var LogsModel = sequelize.define('campaignLogs', {
   logsId: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -54,17 +54,26 @@ var logsModel = sequelize.define('logs', {
   {
     type: Sequelize.INTEGER
   },
-  createdAt: 
+  createdAt:
   {
-    type: Sequelize.DATE, 
+    type: Sequelize.DATE,
     field: 'createdAt',
     defaultValue: function() {
-      return sequelize.literal('CURRENT_TIMESTAMP')
+      return sequelize.literal('CURRENT_TIMESTAMP');
     }
   }
 }, {
-  tableName: 'logs',
+  tableName: 'campaignLogs',
   timestamps: false
 });
 
-module.exports = logsModel;
+LogsModel
+  .sync() // { force: false }
+  .then(function() {
+    Logger.info('Successfully synced logsModel');
+  }).catch(function(err) {
+    // handle error
+    Logger.error('Error while listening to database', err);
+  });
+
+module.exports = LogsModel;

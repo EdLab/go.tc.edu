@@ -11,8 +11,7 @@ var campaignURLModel = sequelize.define('campaignURL', {
     autoIncrement: true,
     primaryKey: true
   },
-  originalURL:
-  {
+  originalURL: {
     type: Sequelize.STRING,
     allowNull: false,
     unique: true,
@@ -20,8 +19,7 @@ var campaignURLModel = sequelize.define('campaignURL', {
       isUrl: true
     }
   },
-  shortId:
-  {
+  shortId: {
     type: Sequelize.STRING,
     defaultValue: function() {
       return shortid.generate();
@@ -29,11 +27,10 @@ var campaignURLModel = sequelize.define('campaignURL', {
     allowNull: false,
     unique: true,
     validate: {
-      len: [3,]
+      len: [3, ]
     }
   },
-  description:
-  {
+  description: {
     type: Sequelize.STRING,
     allowNull: true,
     unique: false
@@ -41,5 +38,15 @@ var campaignURLModel = sequelize.define('campaignURL', {
 }, {
   tableName: 'campaignURL'
 });
-
+// Create database and listen
+campaignURLModel
+  .sync({
+    force: false
+  }) //
+  .then(function() {
+    Logger.info('Successfully synced campaignURLModel');
+  }).catch(function(err) {
+    // handle error
+    Logger.error('Error while listening to database', err);
+  });
 module.exports = campaignURLModel;
