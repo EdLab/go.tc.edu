@@ -3,59 +3,48 @@ const sequelize = require('../config/dbCrud.js');
 const Logger = require('../libs/Logger');
 
 var LogsModel = sequelize.define('campaignLogs', {
-  logsId: {
+  logId: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
-  originalURL:
-  {
+  originalURL: {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
       isUrl: true
     }
   },
-  IP:
-  {
+  remote: {
     type: Sequelize.STRING,
     allowNull: false
   },
-  userAgent:
-  {
+  userAgent: {
     type: Sequelize.STRING,
     allowNull: false
   },
-  latitude:
-  {
+  latitude: {
     type: Sequelize.FLOAT
   },
-  longitude:
-  {
+  longitude: {
     type: Sequelize.FLOAT
   },
-  city:
-  {
+  city: {
     type: Sequelize.STRING
   },
-  region:
-  {
+  region: {
     type: Sequelize.STRING
   },
-  country:
-  {
+  country: {
     type: Sequelize.STRING
   },
-  metroCode:
-  {
+  metroCode: {
     type: Sequelize.INTEGER
   },
-  zipCode:
-  {
+  zipCode: {
     type: Sequelize.INTEGER
   },
-  createdAt:
-  {
+  createdAt: {
     type: Sequelize.DATE,
     field: 'createdAt',
     defaultValue: function() {

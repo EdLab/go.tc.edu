@@ -4,7 +4,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const epilogue = require('epilogue');
 const CampaignURLModel = require('../models/campaignURL');
-const DeletedURLModel = require('../models/campaignURLDeleted');
+// const DeletedURLModel = require('../models/campaignURLDeleted');
 const sequelize = require('../config/dbCrud.js');
 
 app.use(bodyParser.urlencoded({
@@ -21,7 +21,9 @@ router.use(function(req, res, next) {
   // make sure we go to the next routes and don't stop here
   next();
 });
-
+router.get('/', (req, res) => {
+  res.json({});
+});
 // Initialize epilogue
 epilogue.initialize({
   app: app,

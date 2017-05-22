@@ -5,20 +5,30 @@ const router = express.Router();
 const geoip = require('geoip-lite');
 
 // Router for redirect request to original URL
+router.get('/', (req, res) => {
+  res.json({});
+});
 router.get('/:shortId', function(req, res, next) {
+  // var geoIp = geoip.lookup(req.ip);
+  var geoIp = geoip.lookup('128.59.82.245');
+  var logObject = {
+    originalURL: req.protocol + '://' + req.get('host') + req.originalUrl,
+    remote: req.ip,
+    userAgent: req.headers['user-agent']
+  };
+  if (geoIp) {
+    Object.assign(logObject, {
+      latitude: geoIp.ll[0],
+      longitude: geoIp.ll[1],
+      city: geoIp.city,
+      region: geoIp.region,
+      country: geoIp.country,
+      metroCode: geoIp.metro,
+      zipCode: geoIp.zip
+    });
+  }
   LogsModel
-    .create({
-      originalURL: req.protocol + '://' + req.get('host') + req.originalUrl,
-      IP: req.ip,
-      userAgent: req.headers['user-agent'],
-      latitude: geoip.lookup(req.ip).ll[0],
-      longitude: geoip.lookup(req.ip).ll[1],
-      city: geoip.lookup(req.ip).city,
-      region: geoip.lookup(req.ip).region,
-      country: geoip.lookup(req.ip).country,
-      metroCode: geoip.lookup(req.ip).metro,
-      zipCode: geoip.lookup(req.ip).zip
-    })
+    .create(logObject)
     .then(function() {
       Logger.info('Log successfully');
     })
@@ -28,12 +38,13 @@ router.get('/:shortId', function(req, res, next) {
     });
 
   // Redirecting
-  campaignURLModel.findOne({
-    attributes: ['originalURL'],
-    where: {
-      shortId: req.params.shortId
-    }
-  })
+  campaignURLModel
+    .findOne({
+      attributes: ['originalURL'],
+      where: {
+        shortId: req.params.shortId
+      }
+    })
     .then(function(url) {
       if (!url) {
         var error = new Error('Couldn\'t found you..');
@@ -41,7 +52,6 @@ router.get('/:shortId', function(req, res, next) {
         Logger.error('Error while redirecting', error);
         return next(error);
       }
-      Logger.info('Redirecting successful');
       res.status(301).redirect(url.originalURL);
     });
 });
