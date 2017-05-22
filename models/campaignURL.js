@@ -1,6 +1,8 @@
 const shortid = require('shortid');
 const Sequelize = require('sequelize');
 const sequelize = require('../config/dbCrud.js');
+const DeletedURLModel = require('./campaignURLDeleted');
+const Logger = require('../libs/Logger');
 
 var CampaignURLModel = sequelize.define('campaignURL', {
   cId: {
@@ -39,9 +41,31 @@ var CampaignURLModel = sequelize.define('campaignURL', {
 CampaignURLModel
   .sync() // { force: false }
   .then(function() {
-    Logger.info('Successfully synced campaignURLModel');
+    Logger.debug('Successfully synced CampaignURLModel');
   }).catch(function(err) {
     // handle error
     Logger.error('Error while listening to database', err);
   });
+
+// Hooks
+CampaignURLModel
+  .hook('beforeDestroy', function(instance, options, done) {
+    DeletedURLModel
+      .create({
+        originalURL: instance.originalURL,
+        shortId: instance.shortId,
+        description: instance.description,
+        createdAt: instance.createdAt
+      })
+      .then(function() {
+        Logger.debug('Deleted successfully');
+        done(null, instance);
+      })
+      .catch(function(err) {
+        // handle error
+        Logger.error('Error while deleting', err);
+        done(err);
+      });
+  });
+
 module.exports = CampaignURLModel;

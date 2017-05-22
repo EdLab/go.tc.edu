@@ -1,18 +1,12 @@
-// Importing modules
-const Sequelize = require('sequelize');
-const campaignURLModel  = require('../models/campaignURL');
-const logsModel = require('../models/logs');
+const campaignURLModel = require('../models/campaignURL');
+const LogsModel = require('../models/campaignLogs');
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 const geoip = require('geoip-lite');
-const logger = require('../libs/Logger');
-const db = require('../config/dbRedirect.js');
-const sequelize = db.sequelize;
 
 // Router for redirect request to original URL
 router.get('/:shortId', function(req, res, next) {
-
-  logsModel
+  LogsModel
     .create({
       originalURL: req.protocol + '://' + req.get('host') + req.originalUrl,
       IP: req.ip,
@@ -26,26 +20,28 @@ router.get('/:shortId', function(req, res, next) {
       zipCode: geoip.lookup(req.ip).zip
     })
     .then(function() {
-      logger.info('Log successfully');
+      Logger.info('Log successfully');
     })
-    .catch(function(err){
+    .catch(function(err) {
       // handle error
-      logger.error('Error while logging', err);
+      Logger.error('Error while logging', err);
     });
 
-    // Redirecting
+  // Redirecting
   campaignURLModel.findOne({
     attributes: ['originalURL'],
-    where: {shortId: req.params.shortId}
+    where: {
+      shortId: req.params.shortId
+    }
   })
     .then(function(url) {
       if (!url) {
         var error = new Error('Couldn\'t found you..');
         error.status = 405;
-        logger.error('Error while redirecting', err);
+        Logger.error('Error while redirecting', error);
         return next(error);
       }
-      logger.info('Redirecting successful');
+      Logger.info('Redirecting successful');
       res.status(301).redirect(url.originalURL);
     });
 });

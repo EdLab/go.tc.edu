@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/dbCrud.js');
+const Logger = require('../libs/Logger');
 
 var LogsModel = sequelize.define('campaignLogs', {
   logsId: {
@@ -69,7 +70,7 @@ var LogsModel = sequelize.define('campaignLogs', {
 LogsModel
   .sync() // { force: false }
   .then(function() {
-    Logger.info('Successfully synced logsModel');
+    Logger.debug('Successfully synced LogsModel');
   }).catch(function(err) {
     // handle error
     Logger.error('Error while listening to database', err);

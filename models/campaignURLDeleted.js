@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/dbCrud.js');
+const Logger = require('../libs/Logger');
 
 var DeletedURLModel = sequelize.define('campaignURLDeleted', {
   cId: {
@@ -10,7 +11,6 @@ var DeletedURLModel = sequelize.define('campaignURLDeleted', {
   originalURL: {
     type: Sequelize.STRING,
     allowNull: false,
-    unique: true,
     validate: {
       isUrl: true
     }
@@ -25,7 +25,7 @@ var DeletedURLModel = sequelize.define('campaignURLDeleted', {
   },
   description: {
     type: Sequelize.STRING,
-    defaultvalue: 'Just for FUN..',
+    defaultvalue: 'Just another campaign..',
     allowNull: true,
     unique: false
   },
@@ -48,7 +48,7 @@ var DeletedURLModel = sequelize.define('campaignURLDeleted', {
 DeletedURLModel
   .sync() // { force: false }
   .then(function() {
-    Logger.info('Successfully synced deletedURLModel');
+    Logger.debug('Successfully synced DeletedURLModel');
   }).catch(function(err) {
     // handle error
     Logger.error('Error while listening to database', err);
