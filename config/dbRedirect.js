@@ -1,15 +1,20 @@
 const Sequelize = require('sequelize');
-let sequelize = new Sequelize('nlt_dev_local_Jan30', 'root', '', {
-  define: {
-	  freezeTableName: true,
-  },
-	  host: 'localhost',
-	  port: 3306,
-	  dialect: 'mysql',
-});
+const environment = process.env.NODE_ENV || 'development';
+const DBConfig = require('./dbConfig.json')[environment];
+const debug = require('debug')('DB:CMS');
 
-let db = {};
+let sequelize = new Sequelize(DBConfig.database,
+  DBConfig.username,
+  DBConfig.password, {
+    host: DBConfig.host,
+    dialect: 'mysql',
+    logging: debug,
+    pool: {
+      max: 5,
+      min: 0,
+      idle: 30
+    }
+  }
+);
 
-db.sequelize = sequelize;
-
-module.exports = db;
+module.exports = sequelize;

@@ -1,9 +1,15 @@
 module.exports = {
+    "globals": {
+        Logger: true
+    },
     "env": {
         "es6": true,
         "node": true
     },
     "extends": "eslint:recommended",
+    "plugins": [
+        "mocha"
+    ],
     "parserOptions": {
         "sourceType": "module"
     },
@@ -23,6 +29,7 @@ module.exports = {
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "mocha/no-exclusive-tests": "error"
     }
 };

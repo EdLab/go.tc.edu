@@ -1,18 +1,33 @@
-const shortid = require('shortid');
+const chance = require('chance')();
 const Sequelize = require('sequelize');
-const db = require('../config/dbCrud.js'),
-  sequelize = db.sequelize;
-
-// var generated_short_id = shortid.generate();
-
-var campaignURLModel = sequelize.define('campaignURL', {
+const sequelize = require('../config/dbCrud.js');
+const DeletedURLModel = require('./campaignURLDeleted');
+const Logger = require('../libs/Logger');
+const generateShortId = function(shortId = chance.word()) {
+  return CampaignURLModel
+    .findOne({
+      where: {
+        shortId: shortId
+      }
+    })
+    .then(function(result) {
+      if (result) {
+        return generateShortId(chance.word());
+      } else {
+        return shortId;
+      }
+    }, function(err) {
+      Logger.error(err);
+      return err;
+    });
+};
+var CampaignURLModel = sequelize.define('campaign_url', {
   cId: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
-  originalURL:
-  {
+  originalURL: {
     type: Sequelize.STRING,
     allowNull: false,
     unique: true,
@@ -20,26 +35,63 @@ var campaignURLModel = sequelize.define('campaignURL', {
       isUrl: true
     }
   },
-  shortId:
-  {
+  shortId: {
     type: Sequelize.STRING,
-    defaultValue: function() {
-      return shortid.generate();
-    },
     allowNull: false,
     unique: true,
     validate: {
-      len: [3,]
+      len: [3, ]
     }
   },
-  description:
-  {
+  description: {
     type: Sequelize.STRING,
     allowNull: true,
     unique: false
   }
 }, {
-  tableName: 'campaignURL'
+  timestamps: true
 });
+CampaignURLModel
+  .hook('beforeValidate', function(instance, options, done) {
+    if (!instance.shortId) {
+      generateShortId()
+        .then((shortId) => {
+          instance.shortId = shortId;
+          done();
+        });
+    } else {
+      done();
+    }
 
-module.exports = campaignURLModel;
+  });
+CampaignURLModel
+  .sync() // { force: false }
+  .then(function() {
+    Logger.debug('Successfully synced CampaignURLModel');
+  }).catch(function(err) {
+    // handle error
+    Logger.error('Error while listening to database', err);
+  });
+
+// Hooks
+CampaignURLModel
+  .hook('beforeDestroy', function(instance, options, done) {
+    DeletedURLModel
+      .create({
+        originalURL: instance.originalURL,
+        shortId: instance.shortId,
+        description: instance.description,
+        createdAt: instance.createdAt
+      })
+      .then(function() {
+        Logger.debug('Deleted successfully');
+        done(null, instance);
+      })
+      .catch(function(err) {
+        // handle error
+        Logger.error('Error while deleting', err);
+        done(err);
+      });
+  });
+
+module.exports = CampaignURLModel;
