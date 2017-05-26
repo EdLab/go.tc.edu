@@ -19,4 +19,6 @@ app.use(function(req, res, next) {
   next(err);
 });
 
+app.enable('trust proxy');
+
 module.exports = app;
