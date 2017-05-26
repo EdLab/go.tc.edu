@@ -1,11 +1,11 @@
 {
-  "test": {
+  "development": {
     "username": "root",
     "database": "CMS",
     "host": "localhost",
     "dialect": "mysql"
   },
-  "development": {
+  "integration": {
     "username": "***REMOVED***",
     "password": "y6A5Ff6XRffYTuwewpJ9AfpOk72",
     "database": "CMS",

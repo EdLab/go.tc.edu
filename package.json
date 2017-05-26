@@ -4,9 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start-api": "PORT=3001 APP=crud node app",
+    "start-api": "PORT=3001 APP=crud pm2-docker app",
     "dev-api": "PORT=3001 APP=crud nodemon app",
-    "start-redirect": "PORT=3000 APP=redirect node app",
+    "start-redirect": "PORT=3000 APP=redirect pm2-docker app",
     "dev-redirect": "PORT=3000 APP=redirect nodemon app",
     "test": "mocha test"
   },
