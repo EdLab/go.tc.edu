@@ -18,4 +18,4 @@ RUN /bin/bash -c "npm install yarn -g && yarn --ignore-optional"
 EXPOSE 3000
 EXPOSE 3001
 
-ENTRYPOINT ["npm"]
+CMD npm run app

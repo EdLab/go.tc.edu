@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 let http = require('http');
 let port = process.env.PORT || 8080;
 let Logger = require('./libs/Logger');
