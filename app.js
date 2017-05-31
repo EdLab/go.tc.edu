@@ -43,5 +43,5 @@ function onError(error) {
 function onListening() {
   let addr = server.address();
   let bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-  Logger.info('Listening on ' + bind);
+  Logger.info(`Running ${process.env.APP.toUpperCase()} App on ${bind}`);
 }

@@ -4,6 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "start-api": "PORT=3001 APP=crud node app",
+    "dev-api": "PORT=3001 APP=crud nodemon app",
+    "start-redirect": "PORT=3000 APP=redirect node app",
+    "dev-redirect": "PORT=3000 APP=redirect nodemon app",
     "app": "if test \"$NODE_ENV\" = \"development\"; then nodemon app.js; else pm2-docker app.js; fi",
     "test": "mocha test"
   },
