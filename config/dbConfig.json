@@ -5,6 +5,12 @@
     "host": "localhost",
     "dialect": "mysql"
   },
+  "testing": {
+    "username": "root",
+    "database": "CMS",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
   "integration": {
     "username": "***REMOVED***",
     "password": "***REMOVED***",

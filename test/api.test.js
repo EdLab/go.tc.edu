@@ -1,5 +1,5 @@
 /* eslint-env node, mocha */
-process.env.NODE_ENV = 'test';
+process.env.NODE_ENV = 'testing';
 
 let request = require('supertest');
 let crudApp = require('../app-crud');
@@ -7,15 +7,19 @@ let crudApp = require('../app-crud');
 let chai = require('chai');
 var should = chai.should();
 var expect = chai.expect;
+const testToken = 'jp3vkqSD1cBCsm0cbDKB2cy4SosyK4V0wsoMm';
 
 describe('App Crud', () => {
   var server;
-  describe('/rest/campaignURL', () => {
+  describe('/rest/shortURL', () => {
     var tempCampaign;
     describe('/POST Generate shortUrl from originalURL', () => {
       it('it should GET campaignURL object', (done) => {
         request(crudApp)
-          .post('/rest/campaignURL')
+          .post('/rest/shortURL')
+          .set({
+            'Authorization': `Bearer ${testToken}`
+          })
           .send({
             originalURL: 'http://edlab.test.tc.edu',
             description: 'test1'
@@ -35,7 +39,10 @@ describe('App Crud', () => {
     describe('/POST Generate shortUrl with the same originalURL', () => {
       it('it should GET 400 error', (done) => {
         request(crudApp)
-          .post('/rest/campaignURL')
+          .post('/rest/shortURL')
+          .set({
+            'Authorization': `Bearer ${testToken}`
+          })
           .send({
             originalURL: 'http://edlab.test.tc.edu',
             description: 'test2'
@@ -51,7 +58,10 @@ describe('App Crud', () => {
     describe('/GET All campaignURLs', () => {
       it('it should return result with at least one object', (done) => {
         request(crudApp)
-          .get('/rest/campaignURL')
+          .get('/rest/shortURL')
+          .set({
+            'Authorization': `Bearer ${testToken}`
+          })
           .end((err, res) => {
             res.should.have.property('status');
             expect(res.status).to.equal(200);
@@ -60,11 +70,22 @@ describe('App Crud', () => {
             done(err);
           });
       });
+      it('it should return 403 if not with token', (done) => {
+        request(crudApp)
+          .get('/rest/shortURL')
+          .end((err, res) => {
+            expect(res.status).to.equal(401);
+            done(err);
+          });
+      });
     });
     describe('/DELETE /:cId Delete Test campaignURLs', () => {
       it('it should be 200 and return empty object', (done) => {
         request(crudApp)
-          .delete(`/rest/campaignURL/${tempCampaign.cId}`)
+          .delete(`/rest/shortURL/${tempCampaign.cId}`)
+          .set({
+            'Authorization': `Bearer ${testToken}`
+          })
           .end((err, res) => {
             res.body.should.be.a('object');
             expect(res.status).to.equal(200);
@@ -74,8 +95,10 @@ describe('App Crud', () => {
     });
     describe('/GET All campaignURL', () => {
       it('it should get empty result', (done) => {
-        request(crudApp)
-          .get('/rest/campaignURL')
+        request(crudApp).get('/rest/shortURL')
+          .set({
+            'Authorization': `Bearer ${testToken}`
+          })
           .end((err, res) => {
             res.should.have.property('status');
             expect(res.status).to.equal(200);

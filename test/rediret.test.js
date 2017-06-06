@@ -1,5 +1,5 @@
 /* eslint-env node, mocha */
-process.env.NODE_ENV = 'test';
+process.env.NODE_ENV = 'testing';
 
 let request = require('supertest');
 let crudApp = require('../app-crud');
@@ -12,12 +12,15 @@ var targetCampaignURL = {
   originalURL: 'https://edlab.tc.edu',
   shortId: 'testShortId'
 };
-
+const testToken = 'jp3vkqSD1cBCsm0cbDKB2cy4SosyK4V0wsoMm';
 describe('App Redirect', () => {
-  describe('/POST /rest/campaignURL Specify shortId and originalURL', () => {
+  describe('/POST /rest/shortURL Specify shortId and originalURL', () => {
     it('it should GET campaignURL object', (done) => {
       request(crudApp)
-        .post('/rest/campaignURL')
+        .post('/rest/shortURL')
+        .set({
+          'Authorization': `Bearer ${testToken}`
+        })
         .send(targetCampaignURL)
         .end((err, res) => {
           res.body.should.be.a('object');
@@ -36,16 +39,20 @@ describe('App Redirect', () => {
     it('it should be 200 and return empty object', (done) => {
       request(redirectApp)
         .get(`/${targetCampaignURL.shortId}`)
+
         .end((err, res) => {
           expect(res.status).to.equal(301);
           done(err);
         });
     });
   });
-  describe('/DELETE /rest/campaignURL/:cId Delete Test campaignURLs', () => {
+  describe('/DELETE /rest/shortURL/:cId Delete Test campaignURLs', () => {
     it('it should be 200 and return empty object', (done) => {
       request(crudApp)
-        .delete(`/rest/campaignURL/${targetCampaignURL.cId}`)
+        .delete(`/rest/shortURL/${targetCampaignURL.cId}`)
+        .set({
+          'Authorization': `Bearer ${testToken}`
+        })
         .end((err, res) => {
           res.body.should.be.a('object');
           expect(res.status).to.equal(200);
