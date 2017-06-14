@@ -6,7 +6,7 @@ const geoip = require('geoip-lite');
 
 // Router for redirect request to original URL
 router.get('/', (req, res) => {
-  res.json({});
+  res.send('If you have any question, email us at edlabit@tc.edu');
 });
 
 const findCampaignUrl = (req, res, next) => {
@@ -49,10 +49,10 @@ router.get('/:shortId', findCampaignUrl, function(req, res) {
       })
       .catch((error) => {
         Logger.error('Error while redirecting', error);
-        res.json({});
+        res.internalError();
       });
   } else {
-    res.redirect(302, '/');
+    res.notFound('Link not found, please check your shortened url');
   }
 });
 
