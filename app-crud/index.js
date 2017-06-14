@@ -58,6 +58,9 @@ api.all.auth(function(req, res, context) {
     if (token.length == 2 && token[1] == API_TOKEN) {
       return context.continue;
     } else {
+      res.status(401).send({
+        message: 'Unauthorized.'
+      });
       return context.stop;
     }
   } else {
