@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../config/dbCrud.js');
 const DeletedURLModel = require('./campaignURLDeleted');
 const Logger = require('../libs/Logger');
-const generateShortId = function(shortId = chance.word()) {
+const generateShortId = function(shortId = chance.word({syllables: 2})) {
   return CampaignURLModel
     .findOne({
       where: {
@@ -12,7 +12,7 @@ const generateShortId = function(shortId = chance.word()) {
     })
     .then(function(result) {
       if (result) {
-        return generateShortId(chance.word());
+        return generateShortId(chance.word({syllables: 2}));
       } else {
         return shortId;
       }
