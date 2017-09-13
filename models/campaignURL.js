@@ -3,6 +3,9 @@ const Sequelize = require('sequelize');
 const sequelize = require('../config/dbCrud.js');
 const DeletedURLModel = require('./campaignURLDeleted');
 const Logger = require('../libs/Logger');
+// Next Generation of random word
+// const URLSaveChars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~\'!@*:(),;';
+// const chance.string({pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~\'!@*:(),;', length:5})
 const generateShortId = function(shortId = chance.word({syllables: 2})) {
   return CampaignURLModel
     .findOne({
@@ -12,7 +15,7 @@ const generateShortId = function(shortId = chance.word({syllables: 2})) {
     })
     .then(function(result) {
       if (result) {
-        return generateShortId(chance.word({syllables: 2}));
+        return generateShortId(chance.word({syllables: 3}));
       } else {
         return shortId;
       }

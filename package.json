@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "dev": "echo npm run 'dev-api' or 'dev-redirect'",
     "start-api": "PORT=3001 APP=crud node app",
     "dev-api": "PORT=3001 APP=crud nodemon app",
     "start-redirect": "PORT=3000 APP=redirect node app",
