@@ -46,11 +46,6 @@ epilogue.initialize({
 const api = epilogue.resource({
   model: CampaignURLModel,
   endpoints: ['/rest/shortURL', '/rest/shortURL/:cId'],
-  search: [{
-    operator: '$eq',
-    param: 'cId',
-    attributes: ['cId']
-  },],
 });
 
 api.all.auth(function(req, res, context) {
