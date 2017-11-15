@@ -9,34 +9,33 @@
     "dev-api": "PORT=3001 APP=crud nodemon app",
     "start-redirect": "PORT=3000 APP=redirect node app",
     "dev-redirect": "PORT=3000 APP=redirect nodemon app",
-    "app": "if test \"$NODE_ENV\" = \"development\"; then nodemon app.js; else pm2-docker app.js; fi",
-    "test": "mocha test"
+    "app": "if test \"$NODE_ENV\" = \"development\"; then nodemon app.js; else NODE_ENV=production pm2-docker app.js; fi",
+    "test": "NODE_ENV=test mocha test --exit"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.17.1",
-    "chance": "^1.0.8",
+    "body-parser": "^1.18.2",
+    "chance": "^1.0.12",
     "cookie-parser": "^1.4.3",
     "dotenv": "^4.0.0",
     "epilogue": "^0.7.1",
-    "eslint": "^3.19.0",
-    "express": "^4.15.2",
+    "express": "^4.16.2",
     "geoip-lite": "^1.2.1",
-    "moment": "^2.18.1",
-    "morgan": "^1.8.1",
-    "mysql": "^2.13.0",
-    "pm2": "^2.5.0",
+    "moment": "^2.19.2",
+    "morgan": "^1.9.0",
+    "mysql": "^2.15.0",
+    "pm2": "^2.7.2",
     "sequelize": "^3.30.4",
-    "winston": "^2.3.1"
+    "winston": "^2.4.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "eslint": "^3.19.0",
-    "eslint-config-google": "^0.7.1",
-    "eslint-plugin-mocha": "^4.9.0",
-    "mocha": "^3.4.1",
-    "nodemon": "^1.11.0",
+    "chai": "^4.1.2",
+    "eslint": "^4.11.0",
+    "eslint-config-google": "^0.9.1",
+    "eslint-plugin-mocha": "^4.11.0",
+    "mocha": "^4.0.1",
+    "nodemon": "^1.12.1",
     "supertest": "^3.0.0"
   }
 }

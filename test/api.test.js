@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'testing';
 
 let request = require('supertest');
 let crudApp = require('../app-crud');
-
+// let crudApp = 'https://go.tc.columbia.edu'; //Prod
 let chai = require('chai');
 var should = chai.should();
 var expect = chai.expect;

@@ -34,7 +34,9 @@ app.use(function(req, res, next) {
 app.use('/', routes);
 
 // catch 404 and forward to error handler
-
+app.use((err, req, res, next) => {
+  res.send('I\'m sorry to let you down, but there\'s nothing I can give you');
+});
 app.enable('trust proxy');
 
 module.exports = app;
