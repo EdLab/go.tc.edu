@@ -103,7 +103,7 @@ describe('App Crud', () => {
             res.should.have.property('status');
             expect(res.status).to.equal(200);
             res.body.should.be.a('array');
-            expect(res.body).to.have.lengthOf(0);
+            expect(res.body).to.have.lengthOf(100);
             done(err);
           });
       });

@@ -1,14 +1,16 @@
 {
   "development": {
-    "username": "root",
-    "database": "CMS",
-    "host": "localhost",
+    "username": "library",
+    "password": "***REMOVED***",
+    "database": "***REMOVED***",
+    "host": "***REMOVED***",
     "dialect": "mysql"
   },
   "testing": {
-    "username": "root",
-    "database": "CMS",
-    "host": "localhost",
+    "username": "library",
+    "password": "***REMOVED***",
+    "database": "***REMOVED***",
+    "host": "***REMOVED***",
     "dialect": "mysql"
   },
   "integration": {
