@@ -1,6 +1,6 @@
 FROM node:8-slim
 
-MAINTAINER EdLab <edlabit@tc.columbia.edu>
+LABEL maintainer="EdLab <edlabit@tc.columbia.edu>"
 
 ENV TZ 'America/New_York'
 RUN /bin/bash -c 'unlink /etc/localtime; \

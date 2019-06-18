@@ -17,6 +17,9 @@ var LogsModel = sequelize.define('campaign_log', {
     type: Sequelize.STRING,
     allowNull: false
   },
+  referer: {
+    type: Sequelize.STRING,
+  },
   userAgent: {
     type: Sequelize.STRING,
     allowNull: false

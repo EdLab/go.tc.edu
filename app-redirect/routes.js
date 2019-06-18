@@ -25,7 +25,6 @@ router.get('/:shortId', findCampaignUrl, function(req, res, next) {
   var campaignURL = res.locals.campaignURL;
   if (campaignURL) {
     var geoIp = geoip.lookup(req.ip);
-    // var geoIp = geoip.lookup('128.59.82.245');
     var logObject = {
       cId: campaignURL ? campaignURL.cId : null,
       remote: req.ip,
@@ -42,6 +41,7 @@ router.get('/:shortId', findCampaignUrl, function(req, res, next) {
         zipCode: geoIp.zip
       });
     }
+    logObject.referer = req.headers.referer;
     LogsModel
       .create(logObject)
       .then(() => {
