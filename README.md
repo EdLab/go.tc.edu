@@ -1,6 +1,5 @@
 # Go.tc.edu
 
-
 How to start api server
 
 ```
