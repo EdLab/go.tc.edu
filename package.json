@@ -11,6 +11,7 @@
     "dev-redirect": "PORT=3000 APP=redirect nodemon app",
     "app": "if test \"$NODE_ENV\" = \"development\"; then nodemon app.js; else NODE_ENV=production pm2-docker app.js; fi",
     "start": "if test \"$NODE_ENV\" = \"development\"; then nodemon app.js; else NODE_ENV=production pm2 start app.js; fi",
+    "push:api": "git push heroku-api",
     "test": "NODE_ENV=test mocha test --exit"
   },
   "author": "",
