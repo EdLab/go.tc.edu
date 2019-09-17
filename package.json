@@ -11,7 +11,7 @@
     "dev-redirect": "PORT=3000 APP=redirect nodemon app",
     "app": "if test \"$NODE_ENV\" = \"development\"; then nodemon app.js; else NODE_ENV=production pm2-docker app.js; fi",
     "deploy:api": "heroku container:push web -a go-tc-edu-api && heroku container:release web -a go-tc-edu-api",
-    "deploy:deploy": "heroku container:push web -a go-tc-edu-redirect && heroku container:release web -a go-tc-edu-redirect",
+    "deploy:redirect": "heroku container:push web -a go-tc-edu-redirect && heroku container:release web -a go-tc-edu-redirect",
     "test": "NODE_ENV=test mocha test --exit"
   },
   "author": "",
