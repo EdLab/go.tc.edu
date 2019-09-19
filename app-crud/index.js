@@ -32,8 +32,8 @@ router.use(function(req, res, next) {
   next();
 });
 
-app.get('/', (req, res) => {
-  res.json(packageConfig);
+app.get('/', (req, res)=>{
+  res.json({version: packageConfig.version});
 });
 
 // Initialize epilogue
