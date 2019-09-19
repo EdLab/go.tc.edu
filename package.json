@@ -9,7 +9,7 @@
     "dev:api": "PORT=3001 APP=crud nodemon app",
     "start:redirect": "PORT=3000 APP=redirect node app",
     "dev:redirect": "PORT=3000 APP=redirect nodemon app",
-    "start": "if test \"$NODE_ENV\" = \"development\"; then nodemon app.js; else NODE_ENV=production pm2-docker start app.js -i max --env production; fi",
+    "start": "if test \"$NODE_ENV\" = \"development\"; then nodemon app.js; else NODE_ENV=production pm2-docker start app.js -i 1 --env production; fi",
     "deploy:api": "heroku container:push web -a go-tc-edu-api && heroku container:release web -a go-tc-edu-api",
     "deploy:redirect": "heroku container:push web -a go-tc-edu-redirect && heroku container:release web -a go-tc-edu-redirect",
     "test": "NODE_ENV=test mocha test --exit"
