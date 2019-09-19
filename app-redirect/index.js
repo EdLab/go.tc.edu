@@ -1,8 +1,9 @@
-let express = require('express');
-let app = express();
-let cookieParser = require('cookie-parser');
-let bodyParser = require('body-parser');
-let routes = require('./routes');
+const express = require('express');
+const app = express();
+const packageConfig = require('../package.json');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const routes = require('./routes');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -31,6 +32,9 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.get('/version', (req, res)=>{
+  res.json({version: packageConfig.version});
+});
 app.use('/', routes);
 
 // catch 404 and forward to error handler

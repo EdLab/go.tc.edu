@@ -16,4 +16,4 @@ RUN npm i --ignore-optional
 EXPOSE 3000
 EXPOSE 3001
 
-CMD npm run app
+CMD npm start
