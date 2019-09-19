@@ -2,10 +2,9 @@ module.exports = {
   apps : [{
     name: 'gotc-app',
     script: 'app.js',
-    instances: '2',
+    instances: 'max',
     autorestart: true,
     watch: false,
-    max_memory_restart: '1G',
     env: {
       NODE_ENV: 'development',
     },
