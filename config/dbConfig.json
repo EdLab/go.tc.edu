@@ -25,6 +25,7 @@
     "password": "***REMOVED***",
     "database": "CMS",
     "host": "***REMOVED***",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "ssl": true
   }
 }

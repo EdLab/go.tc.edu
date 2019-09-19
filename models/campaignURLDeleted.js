@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const sequelize = require('../config/dbCrud.js');
+const sequelize = require('../config/dbConnection.js');
 const Logger = require('../libs/Logger');
 
 var DeletedURLModel = sequelize.define('campaign_deleted_url', {

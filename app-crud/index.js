@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const epilogue = require('epilogue');
 const CampaignURLModel = require('../models/campaignURL');
 // const DeletedURLModel = require('../models/campaignURLDeleted');
-const sequelize = require('../config/dbCrud.js');
+const sequelize = require('../config/dbConnection.js');
 const packageConfig = require('../package.json');
 const API_TOKEN = 'jp3vkqSD1cBCsm0cbDKB2cy4SosyK4V0wsoMm';
 app.use(bodyParser.urlencoded({

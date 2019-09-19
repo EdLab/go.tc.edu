@@ -1,6 +1,6 @@
 const chance = require('chance')();
 const Sequelize = require('sequelize');
-const sequelize = require('../config/dbCrud.js');
+const sequelize = require('../config/dbConnection.js');
 const DeletedURLModel = require('./campaignURLDeleted');
 const Logger = require('../libs/Logger');
 // Next Generation of random word
