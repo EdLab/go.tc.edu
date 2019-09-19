@@ -6,7 +6,7 @@ const epilogue = require('epilogue');
 const CampaignURLModel = require('../models/campaignURL');
 // const DeletedURLModel = require('../models/campaignURLDeleted');
 const sequelize = require('../config/dbCrud.js');
-const jenkinsConfig = require('../jenkins.json');
+const packageConfig = require('../package.json');
 const API_TOKEN = 'jp3vkqSD1cBCsm0cbDKB2cy4SosyK4V0wsoMm';
 app.use(bodyParser.urlencoded({
   extended: true
@@ -33,7 +33,7 @@ router.use(function(req, res, next) {
 });
 
 app.get('/', (req, res) => {
-  res.json(jenkinsConfig);
+  res.json(packageConfig);
 });
 
 // Initialize epilogue
