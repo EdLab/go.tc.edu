@@ -4,4 +4,4 @@ build:
 release:
   image: web
 run:
-  web: APP=$TARGET npm start
+  web: APP=$TARGET npm run start
