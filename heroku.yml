@@ -1,4 +1,6 @@
 build:
+  config:
+    BUILD_TARGET: $TARGET
   docker:
     web: Dockerfile
 release:
