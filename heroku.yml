@@ -1,7 +1,7 @@
 build:
-  config:
-    BUILD_TARGET: $TARGET
   docker:
     web: Dockerfile
 release:
   image: web
+run:
+  web: APP=$TARGET npm start

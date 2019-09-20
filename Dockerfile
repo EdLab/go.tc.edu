@@ -2,14 +2,10 @@ FROM node:10-slim
 
 LABEL maintainer="EdLab <edlabit@tc.columbia.edu>"
 
-ARG BUILD_TARGET
-
+ENV NODE_ENV production
 ENV TZ 'America/New_York'
 RUN /bin/bash -c 'unlink /etc/localtime; \
 ln -s /usr/share/zoneinfo/America/New_York /etc/localtime'
-ENV NODE_ENV production
-
-ENV APP=$BUILD_TARGET
 
 COPY . /prj
 
@@ -19,7 +15,5 @@ RUN npm i --ignore-optional
 
 EXPOSE 3000
 EXPOSE 3001
-
-RUN echo $APP
 
 CMD npm start
