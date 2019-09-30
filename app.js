@@ -5,7 +5,7 @@ let port = process.env.PORT || 8080;
 let Logger = require('./libs/Logger');
 
 global.Logger = Logger;
-
+require('dotenv-safe').config();
 let App = require(`./app-${process.env.APP}`);
 let server = http.createServer(App);
 
