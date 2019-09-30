@@ -3,23 +3,27 @@ const Sequelize = require('sequelize');
 const sequelize = require('../config/dbConnection.js');
 const DeletedURLModel = require('./campaignURLDeleted');
 const Logger = require('../libs/Logger');
-// Next Generation of random word
+//TODO: Next Generation of random word
 // const URLSaveChars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~\'!@*:(),;';
 // const chance.string({pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~\'!@*:(),;', length:5})
-const generateShortId = function(shortId = chance.word({syllables: 2})) {
+const generateShortId = function (shortId = chance.word({
+  syllables: 2
+})) {
   return CampaignURLModel
     .findOne({
       where: {
         shortId: shortId
       }
     })
-    .then(function(result) {
+    .then(function (result) {
       if (result) {
-        return generateShortId(chance.word({syllables: 3}));
+        return generateShortId(chance.word({
+          syllables: 3
+        }));
       } else {
         return shortId;
       }
-    }, function(err) {
+    }, function (err) {
       Logger.error(err);
       return err;
     });
@@ -55,7 +59,7 @@ var CampaignURLModel = sequelize.define('campaign_url', {
   timestamps: true
 });
 CampaignURLModel
-  .hook('beforeValidate', function(instance, options, done) {
+  .hook('beforeValidate', function (instance, options, done) {
     if (!instance.shortId) {
       generateShortId()
         .then((shortId) => {
@@ -69,16 +73,16 @@ CampaignURLModel
   });
 CampaignURLModel
   .sync() // { force: false }
-  .then(function() {
+  .then(function () {
     Logger.debug('Successfully synced CampaignURLModel');
-  }).catch(function(err) {
+  }).catch(function (err) {
     // handle error
     Logger.error('Error while listening to database', err);
   });
 
 // Hooks
 CampaignURLModel
-  .hook('beforeDestroy', function(instance, options, done) {
+  .hook('beforeDestroy', function (instance, options, done) {
     DeletedURLModel
       .create({
         originalURL: instance.originalURL,
@@ -86,11 +90,11 @@ CampaignURLModel
         description: instance.description,
         createdAt: instance.createdAt
       })
-      .then(function() {
+      .then(function () {
         Logger.debug('Deleted successfully');
         done(null, instance);
       })
-      .catch(function(err) {
+      .catch(function (err) {
         // handle error
         Logger.error('Error while deleting', err);
         done(err);
