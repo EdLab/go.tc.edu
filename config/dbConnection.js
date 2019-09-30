@@ -18,7 +18,7 @@ let sequelize = new Sequelize(DB_DATABASE,
   DB_PASSWORD, {
     host: DB_HOST,
     dialect: DB_DIALECT,
-    dialectOptions: DB_SSL_ENABLED == true ? {
+    dialectOptions: DB_SSL_ENABLED === 'true' ? {
       ssl: {
         ca: fs.readFileSync(__dirname + '/rds-combined-ca-bundle.pem')
       }
